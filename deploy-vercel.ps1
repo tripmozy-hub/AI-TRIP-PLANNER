@@ -5,7 +5,7 @@ param (
 )
 
 if (-not $VercelToken) {
-    $VercelToken = Read-Host "Paste your Vercel Token"
+    $VercelToken = Read-Host "Paste your Vercel Token (from https://vercel.com/account/tokens)"
 }
 
 if (-not $VercelToken) {
@@ -13,10 +13,18 @@ if (-not $VercelToken) {
     exit
 }
 
-Write-Host "Deploying Tripmozy to Vercel..." -ForegroundColor Cyan
+Write-Host "Deploying Tripmozy Smart Tour Booking Marketplace to Vercel..." -ForegroundColor Cyan
 
 $dir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$files = @("index.html", "app.js", "styles.css", "logo.png", "tripmozy_catalog.js", "tripmozy_hotels.json", "widget.js", "vercel.json")
+
+# Get all files excluding .git, node_modules, and zip archives
+$allFiles = Get-ChildItem -Path $dir -Recurse -File | Where-Object {
+    $_.FullName -notmatch '\\\.git\\' -and
+    $_.FullName -notmatch '\\node_modules\\' -and
+    $_.FullName -notmatch '\\\.vercel\\' -and
+    $_.FullName -notmatch '\.zip$' -and
+    $_.FullName -notmatch '\.log$'
+}
 
 $sha1 = [System.Security.Cryptography.SHA1]::Create()
 function Get-FileSha1($bytes) {
@@ -26,15 +34,13 @@ function Get-FileSha1($bytes) {
 
 $deploymentFiles = @()
 
-foreach ($file in $files) {
-    $filePath = Join-Path $dir $file
-    if (-not (Test-Path $filePath)) { continue }
-
-    $bytes = [System.IO.File]::ReadAllBytes($filePath)
+foreach ($item in $allFiles) {
+    $relativePath = $item.FullName.Substring($dir.Length + 1).Replace("\", "/")
+    $bytes = [System.IO.File]::ReadAllBytes($item.FullName)
     $digest = Get-FileSha1 $bytes
     $size = $bytes.Length
 
-    Write-Host "Uploading $file ($size bytes)..." -NoNewline
+    Write-Host "Uploading $relativePath ($size bytes)..." -NoNewline
 
     $uploadHeaders = @{
         "Authorization" = "Bearer $VercelToken"
@@ -50,7 +56,7 @@ foreach ($file in $files) {
     }
 
     $deploymentFiles += @{
-        file = $file
+        file = $relativePath
         sha = $digest
         size = $size
     }
@@ -71,8 +77,7 @@ try {
     $deployResponse = Invoke-RestMethod -Uri "https://api.vercel.com/v13/deployments" -Method Post -Headers $deployHeaders -Body $deployBody
     Write-Host "`n SUCCESS! Deployed to Vercel!" -ForegroundColor Green
     Write-Host "Live URL: https://$($deployResponse.url)" -ForegroundColor Yellow
-    Write-Host "Alias URL: https://tripmozy-india-trip-planner.vercel.app" -ForegroundColor Cyan
+    Write-Host "Production URL: https://tripmozy-india-trip-planner.vercel.app" -ForegroundColor Cyan
 } catch {
     Write-Host "`nDeploy Error: $($_.Exception.Message)" -ForegroundColor Red
 }
-
