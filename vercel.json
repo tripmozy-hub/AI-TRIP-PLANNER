@@ -12,11 +12,8 @@
     }
   ],
   "rewrites": [
-    { "source": "/", "destination": "/smart-tour-booking.html" },
     { "source": "/smart-tour-booking", "destination": "/smart-tour-booking.html" },
     { "source": "/smart-hotel-booking", "destination": "/smart-tour-booking.html" },
-    { "source": "/ai-planner", "destination": "/index.html" },
-    { "source": "/planner", "destination": "/index.html" },
     { "source": "/booking", "destination": "/customer-booking.html" },
     { "source": "/my-booking", "destination": "/customer-booking.html" },
     { "source": "/login", "destination": "/login.html" },
