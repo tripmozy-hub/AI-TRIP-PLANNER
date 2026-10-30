@@ -1,0 +1,155 @@
+{
+  "version": 3,
+  "daemons": {},
+  "routes": [
+    {
+      "src": "^/(?:(.+)/)?index(?:\\.html)?/?$",
+      "headers": {
+        "Location": "/$1"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/(.*)\\.html/?$",
+      "headers": {
+        "Location": "/$1"
+      },
+      "status": 308
+    },
+    {
+      "src": "^(?:/(.*))$",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With"
+      },
+      "continue": true
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "^/smart-tour-booking$",
+      "dest": "/smart-tour-booking.html",
+      "check": true
+    },
+    {
+      "src": "^/smart-hotel-booking$",
+      "dest": "/smart-tour-booking.html",
+      "check": true
+    },
+    {
+      "src": "^/booking$",
+      "dest": "/customer-booking.html",
+      "check": true
+    },
+    {
+      "src": "^/my-booking$",
+      "dest": "/customer-booking.html",
+      "check": true
+    },
+    {
+      "src": "^/login$",
+      "dest": "/login.html",
+      "check": true
+    },
+    {
+      "src": "^/signin$",
+      "dest": "/login.html",
+      "check": true
+    },
+    {
+      "src": "^/customer/login$",
+      "dest": "/login.html",
+      "check": true
+    },
+    {
+      "src": "^/partner/login$",
+      "dest": "/login.html",
+      "check": true
+    },
+    {
+      "src": "^/vendor/login$",
+      "dest": "/login.html",
+      "check": true
+    },
+    {
+      "src": "^/partner/dashboard$",
+      "dest": "/partner-dashboard.html",
+      "check": true
+    },
+    {
+      "src": "^/partner$",
+      "dest": "/partner-dashboard.html",
+      "check": true
+    },
+    {
+      "src": "^/vendor$",
+      "dest": "/partner-dashboard.html",
+      "check": true
+    },
+    {
+      "src": "^/api(?:/(.*))$",
+      "dest": "/api/index.js",
+      "check": true
+    },
+    {
+      "src": "^/action$",
+      "dest": "/api/index.js",
+      "check": true
+    },
+    {
+      "src": "^/health$",
+      "dest": "/api/index.js",
+      "check": true
+    },
+    {
+      "src": "^/widget$",
+      "dest": "/widget.js",
+      "check": true
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/",
+      "transforms": [
+        {
+          "type": "request.path",
+          "op": "set",
+          "args": "/$1"
+        }
+      ]
+    },
+    {
+      "handle": "error"
+    },
+    {
+      "status": 404,
+      "src": "^(?!/api).*$",
+      "dest": "/404"
+    }
+  ],
+  "overrides": {
+    "customer-booking.html": {
+      "path": "customer-booking"
+    },
+    "customer-login.html": {
+      "path": "customer-login"
+    },
+    "login.html": {
+      "path": "login"
+    },
+    "partner-dashboard.html": {
+      "path": "partner-dashboard"
+    },
+    "smart-hotel-booking.html": {
+      "path": "smart-hotel-booking"
+    },
+    "smart-tour-booking.html": {
+      "path": "smart-tour-booking"
+    },
+    "vendor-login.html": {
+      "path": "vendor-login"
+    }
+  },
+  "crons": []
+}

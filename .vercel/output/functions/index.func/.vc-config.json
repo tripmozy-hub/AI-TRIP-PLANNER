@@ -1,0 +1,15 @@
+{
+  "handler": "app.cjs",
+  "runtime": "nodejs26.x",
+  "architecture": "x86_64",
+  "environment": {},
+  "framework": {
+    "slug": "",
+    "version": ""
+  },
+  "shouldDisableAutomaticFetchInstrumentation": false,
+  "launcherType": "Nodejs",
+  "shouldAddHelpers": false,
+  "shouldAddSourcemapSupport": true,
+  "awsLambdaHandler": ""
+}
