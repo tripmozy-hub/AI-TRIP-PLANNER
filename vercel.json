@@ -5,21 +5,31 @@
     {
       "source": "/(.*)",
       "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        },
-        {
-          "key": "Access-Control-Allow-Methods",
-          "value": "GET, OPTIONS"
-        }
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET, POST, PUT, DELETE, OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization, X-Requested-With" }
       ]
     }
   ],
   "rewrites": [
-    {
-      "source": "/widget",
-      "destination": "/widget.js"
-    }
+    { "source": "/", "destination": "/public/smart-tour-booking.html" },
+    { "source": "/smart-tour-booking", "destination": "/public/smart-tour-booking.html" },
+    { "source": "/smart-hotel-booking", "destination": "/public/smart-tour-booking.html" },
+    { "source": "/ai-planner", "destination": "/index.html" },
+    { "source": "/planner", "destination": "/index.html" },
+    { "source": "/booking", "destination": "/public/customer-booking.html" },
+    { "source": "/my-booking", "destination": "/public/customer-booking.html" },
+    { "source": "/login", "destination": "/public/login.html" },
+    { "source": "/signin", "destination": "/public/login.html" },
+    { "source": "/customer/login", "destination": "/public/login.html" },
+    { "source": "/partner/login", "destination": "/public/login.html" },
+    { "source": "/vendor/login", "destination": "/public/login.html" },
+    { "source": "/partner/dashboard", "destination": "/public/partner-dashboard.html" },
+    { "source": "/partner", "destination": "/public/partner-dashboard.html" },
+    { "source": "/vendor", "destination": "/public/partner-dashboard.html" },
+    { "source": "/api/(.*)", "destination": "/api/index.js" },
+    { "source": "/action", "destination": "/api/index.js" },
+    { "source": "/health", "destination": "/api/index.js" },
+    { "source": "/widget", "destination": "/widget.js" }
   ]
 }
